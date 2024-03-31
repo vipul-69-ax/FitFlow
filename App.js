@@ -1,20 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { fetchExercises } from "./src/api/exercises";
+import React from "react";
+import { StyledFlatList, StyledView } from "./src/components/styled";
+import { ExerciseCard } from "./src/components/ExerciseCard";
+import { StyledComponent, withExpoSnack } from "nativewind";
+import { NavigationContainer } from "@react-navigation/native";
+import SearchPage from "./src/pages/SearchPage";
+import MainNavigator from "./src/navigator/MainNavigator";
+import Landing from "./src/pages/Landing";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const queryClient = new QueryClient();
+
+function Exercises() {
+  return <MainNavigator/>
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <Exercises />
+      </QueryClientProvider>
+    </NavigationContainer>
+  );
+};
+
+export default withExpoSnack(App);
