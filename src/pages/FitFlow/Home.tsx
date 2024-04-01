@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -6,8 +6,6 @@ import Animated, {
   FadeOut,
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import {
@@ -15,32 +13,36 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import { StyledView } from "../components/styled";
-import HomeExerciseCard from "../components/HomeExercise";
-import useExerciseStore from "../store/exerciseStore";
-import {
-  DateInfo,
-  DaysNavigationProp,
-  Exercise,
-  ExerciseStore,
-  SearchNavigationProp,
-} from "../ts";
-import FadeLetter from "../components/FadingTextAnim";
-import { getDateInfo } from "../utils/helpers";
-import { YStaggerText } from "../components/YStaggerText";
-
+import { StyledView } from "../../components/styled";
+import HomeExerciseCard from "../../components/HomeExercise";
+import useExerciseStore from "../../store/exerciseStore";
+import { DateInfo, DaysNavigationProp, Exercise, ExerciseStore, State, User } from "../../ts";
+import FadeLetter from "../../components/FadingTextAnim";
+import { getDateInfo } from "../../utils/helpers";
+import { YStaggerText } from "../../components/YStaggerText";
+import { ExerciseSchema } from "../../zod";
+import useUserStore from "../../store/userStore";
 export default function Home() {
   const { navigate } = useNavigation<DaysNavigationProp>();
   const [currentExercise, setCurrentExercise] = useState<Exercise | null>(null);
+  const user = useUserStore((state:State)=>state.user);
   const DATE: DateInfo = getDateInfo();
-
   const { exercises, completeExercise, removeExercise } =
     useExerciseStore() as ExerciseStore;
 
   const parsedExercises = exercises
     .map((i: string) => {
       const e: Exercise = JSON.parse(i);
-      if (e.day == DATE.dayName) return e;
+      if (e.day == DATE.dayName) {
+        try {
+          const validatedExercise = ExerciseSchema.parse(e);
+          if (validatedExercise) {
+            return validatedExercise;
+          }
+        } catch (err) {
+          return;
+        }
+      }
       return;
     })
     .filter((i) => i);
@@ -82,12 +84,14 @@ export default function Home() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Animated.View exiting={FadeOut} style={{ flex: 1 }}>
         <StyledView className="px-4" style={{ paddingTop: "15%" }}>
-          <Animated.Text
-            style={{ fontSize: 18 }}
-            onPress={() => console.log(parsedExercises)}
-          >
-            Hello Vipul
-          </Animated.Text>
+          {user.name && (
+            <Animated.Text
+              style={{ fontSize: 18 }}
+              onPress={() => console.log(exercises.length)}
+            >
+              Hello Vipul
+            </Animated.Text>
+          )}
 
           <StyledView className="flex-row" style={{ gap: 5 }}>
             {"Let's Workout".split(" ").map((i, index) => (
@@ -251,5 +255,13 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "800",
     color: "gray",
+  },
+  lottie: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    zIndex: 1000,
   },
 });

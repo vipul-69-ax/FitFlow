@@ -7,7 +7,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import {
+  Gesture,
+  GestureDetector,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import Animated, {
   SensorType,
   useAnimatedSensor,
@@ -17,7 +21,8 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import { HomeNavigationProp, ParallaxStyles } from "../../ts";
+import { HomeNavigationProp, ParallaxStyles, StateStore } from "../../ts";
+import useStateStore from "../../store/stateStore";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -25,7 +30,7 @@ export const AnimatedItem = () => {
   const gesture = Gesture.Pan().onStart((i) => {
     console.log(i);
   });
-  const { navigate } = useNavigation<HomeNavigationProp>();
+  const setStoreState = useStateStore((s: StateStore) => s.setState);
   const rotation = useAnimatedSensor(SensorType.ROTATION);
   const parallaxStyles = useAnimatedStyle<ParallaxStyles>(() => {
     const { pitch, roll } = rotation.sensor.value;
@@ -80,37 +85,39 @@ export const AnimatedItem = () => {
     swipeTextOpacity.value = withDelay(1000, withTiming(0));
   }, []);
   return (
-    <GestureDetector gesture={gesture}>
-      <View style={styles.container}>
-        <Animated.Image
-          source={require("../../../assets/diet.png")}
-          style={[styles.image, parallaxStyles]}
-        />
-        <Animated.View>
-          <Text style={styles.title}>FitFlow</Text>
-        </Animated.View>
-        <View style={styles.actionContainer}>
-          <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={() => {
-              if (imgPos.value >= 190) {
-                navigate("home");
-              }
-            }}
-          >
-            <GestureDetector gesture={swipeGesture}>
-              <Animated.Image
-                style={[imgStyles, { height: 40, width: 40 }]}
-                source={require("../../../assets/workout.png")}
-              />
-            </GestureDetector>
-          </TouchableOpacity>
-          <Animated.Text style={[styles.swipeText, swipeTextStyles]}>
-            Swipe to continue
-          </Animated.Text>
+    <GestureHandlerRootView>
+      <GestureDetector gesture={gesture}>
+        <View style={styles.container}>
+          <Animated.Image
+            source={require("../../../assets/diet.png")}
+            style={[styles.image, parallaxStyles]}
+          />
+          <Animated.View>
+            <Text style={styles.title}>FitFlow</Text>
+          </Animated.View>
+          <View style={styles.actionContainer}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={async() => {
+                if (imgPos.value >= 190) {
+                  await setStoreState({state:true})
+                }
+              }}
+            >
+              <GestureDetector gesture={swipeGesture}>
+                <Animated.Image
+                  style={[imgStyles, { height: 40, width: 40 }]}
+                  source={require("../../../assets/workout.png")}
+                />
+              </GestureDetector>
+            </TouchableOpacity>
+            <Animated.Text style={[styles.swipeText, swipeTextStyles]}>
+              Swipe to continue
+            </Animated.Text>
+          </View>
         </View>
-      </View>
-    </GestureDetector>
+      </GestureDetector>
+    </GestureHandlerRootView>
   );
 };
 

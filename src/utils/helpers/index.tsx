@@ -17,8 +17,6 @@ export function capitalizeWords(sentence: string): string {
     .join(" ");
 }
 
-
-
 export function getDateInfo(): DateInfo {
   const today = new Date();
   const date = today.getDate();
@@ -61,4 +59,26 @@ export function getDateInfo(): DateInfo {
     dayName,
     monthName,
   };
+}
+
+export function getDayNames(): Array<string> {
+  const daysOfWeek = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return daysOfWeek;
+}
+
+export function roundInt(value: string) {
+  if (!value) return 0;
+  try {
+    return Math.round(parseInt(value));
+  } catch (e) {
+    return 0;
+  }
 }

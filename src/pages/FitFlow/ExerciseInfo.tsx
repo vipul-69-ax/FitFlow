@@ -12,10 +12,11 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { StyledText, StyledView, StyledInput } from "../components/styled";
-import useExerciseStore from "../store/exerciseStore";
-import { generateRandomString, getDateInfo } from "../utils/helpers";
-import { DateInfo, ExerciseStore, RouteData } from "../ts";
+import { StyledText, StyledView, StyledInput } from "../../components/styled";
+import useExerciseStore from "../../store/exerciseStore";
+import { generateRandomString, getDateInfo, roundInt } from "../../utils/helpers";
+import { DateInfo, ExerciseStore, InfoRouteData, RouteData } from "../../ts";
+import { ExerciseSchema } from "../../zod";
 
 const Information = ({ name, value }) => (
   <View style={styles.informationContainer}>
@@ -30,7 +31,7 @@ const Information = ({ name, value }) => (
 
 const ExerciseInfo = () => {
   const route = useRoute().params;
-  const { data } = route as RouteData;
+  const { data, day } = route as InfoRouteData;
   const [reps, setReps] = useState("0");
   const [sets, setSets] = useState("0");
   const { addExercise } = useExerciseStore() as ExerciseStore;
@@ -51,17 +52,19 @@ const ExerciseInfo = () => {
   const handleAddExercise = async () => {
     try {
       setLoading(true);
-      const d = JSON.stringify({
+      const d = {
         ...data,
-        sets: sets,
-        reps: reps,
+        sets: roundInt(sets),
+        reps: roundInt(reps),
         completed: false,
         exerciseId: generateRandomString(10),
-        day: DATE.dayName,
-      });
-      await addExercise(d);
+        day: day || DATE.dayName,
+      };
+      const validateData = ExerciseSchema.parse(d);
+      await addExercise(JSON.stringify(validateData));
       alert("Exercise Added");
     } catch (err) {
+      console.log(err);
       alert("Exercise not added");
     } finally {
       setLoading(false);

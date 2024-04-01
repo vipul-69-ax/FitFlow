@@ -1,31 +1,29 @@
-import { StatusBar } from "expo-status-bar";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { fetchExercises } from "./src/api/exercises";
+import { StyleSheet } from "react-native";
+import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
-import { StyledFlatList, StyledView } from "./src/components/styled";
-import { ExerciseCard } from "./src/components/ExerciseCard";
-import { StyledComponent, withExpoSnack } from "nativewind";
+import { withExpoSnack } from "nativewind";
 import { NavigationContainer } from "@react-navigation/native";
-import SearchPage from "./src/pages/SearchPage";
-import MainNavigator from "./src/navigator/MainNavigator";
-import Landing from "./src/pages/Landing";
+import BottomAppNavigator from "./src/navigator/BottomNavigator";
+import useStateStore from "./src/store/stateStore";
+import Landing from "./src/pages/FitFlow/Landing";
 
 const queryClient = new QueryClient();
 
 function Exercises() {
-  return <MainNavigator/>
+  return <BottomAppNavigator />;
 }
 
 const styles = StyleSheet.create({});
 
 const App = () => {
+  const state = useStateStore((s) => s.state);
+  console.log(state)
   return (
-    <NavigationContainer>
+    state?<NavigationContainer>
       <QueryClientProvider client={queryClient}>
         <Exercises />
       </QueryClientProvider>
-    </NavigationContainer>
+    </NavigationContainer>:<Landing/>
   );
 };
 
