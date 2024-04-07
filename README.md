@@ -11,8 +11,8 @@ Please note that FitFlow is still in development.
 - Lightweight and easy-to-use interface.
 
 ## Demonstration
-<iframe width="560" height="315" src="https://drive.google.com/file/d/1s_HDpjwMCD3sm6G2396a4dNb1ur4Ab2J/view?usp=sharing" frameborder="0" allowfullscreen></iframe>
-<iframe width="560" height="315" src="https://drive.google.com/file/d/1W6n3Xb2FaynQEBya6TUwyKcA33AsxFjW/view?usp=sharing" frameborder="0" allowfullscreen></iframe>
+[Video One](https://drive.google.com/file/d/1s_HDpjwMCD3sm6G2396a4dNb1ur4Ab2J/view?usp=sharing)
+[Video Two](https://drive.google.com/file/d/1W6n3Xb2FaynQEBya6TUwyKcA33AsxFjW/view?usp=sharing)
 
 ## Getting Started
 To get started with FitFlow, follow these steps:
