@@ -22,13 +22,11 @@ export default function UserHome() {
       age: parseInt(age),
       height: parseInt(height),
     };
-    console.log(age, height);
     try {
       const validatedUser = UserSchema.parse(data);
       setUser(validatedUser);
       alert("Updated Information!");
     } catch (err) {
-      console.log(err);
       alert("Error updating information!");
     }
     store.setState({});

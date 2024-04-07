@@ -66,25 +66,25 @@ export const ExerciseCard = ({ data, index, press }) => {
       <GestureHandlerRootView style={{}}>
         <GestureDetector gesture={swipeGesture}>
           <TouchableOpacity onPress={press} activeOpacity={0.7}>
-            <StyledView className="flex flex-row mt-3">
-              <StyledView className="ml-4 mt-3">
-                <StyledText className="text-lg">
+            <View style={{marginTop:'3%', flexDirection:'row'}}>
+              <View style={{marginLeft:'4%', marginTop:'3%'}}>
+                <Text style={{fontSize:21}}>
                   {capitalizeWords(data?.name) || data?.bodyPart}
-                </StyledText>
-                <StyledView className="flex flex-row gap-3 pt-1">
-                  <StyledText className="text-gray-400 text-md">
+                </Text>
+                <View style={{flexDirection:'row',gap:3, paddingTop:"1%"}}>
+                  <Text style={{color:'#d3d3d3', fontSize:17}}>
                     Targets: {data.muscle}
-                  </StyledText>
-                  <StyledText className="text-gray-400 text-md">
+                  </Text>
+                  <Text style={{color:'#d3d3d3', fontSize:17}}>
                     Machine: {data.equipment}
-                  </StyledText>
-                </StyledView>
-              </StyledView>
+                  </Text>
+                </View>
+              </View>
               <Animated.View style={[sideViewStyles, styles.sideView]}>
                 <Ionicons name="add" color={"black"} size={32} />
-                <StyledText className="text-black mt-1">Add</StyledText>
+                <Text style={{fontWeight:'900', marginTop:'1%'}}>Add</Text>
               </Animated.View>
-            </StyledView>
+            </View>
           </TouchableOpacity>
         </GestureDetector>
       </GestureHandlerRootView>

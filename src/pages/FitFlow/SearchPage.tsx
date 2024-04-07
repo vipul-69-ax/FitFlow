@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { fetchExercises } from "../../api/exercises";
-import { StatusBar } from "expo-status-bar";
-import { StyledInput, StyledView } from "../../components/styled";
 import { ExerciseCard } from "../../components/ExerciseCard";
 import Animated, {
   useAnimatedStyle,
@@ -18,9 +16,8 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import FadeLetter from "../../components/FadingTextAnim";
 import { InfoNavigationProp, RouteData } from "../../ts";
-import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, TextInput } from "react-native";
 import { ExerciseQuerySchema } from "../../zod";
 
 export default function SearchPage() {
@@ -61,7 +58,7 @@ export default function SearchPage() {
         refetch();
       }
     } catch (err) {
-      console.log("Cannot search query.");
+    
     }
   };
 
@@ -73,8 +70,8 @@ export default function SearchPage() {
             <ActivityIndicator style={styles.indicator} />
           </Animated.View>
           <Animated.View style={yPosStyles}>
-            <StyledView className="px-5">
-              <StyledInput
+            <View style={{paddingHorizontal:'5%'}}>
+              <TextInput
                 onChangeText={(val) => setInput(val)}
                 onBlur={search}
                 style={styles.input}
@@ -102,7 +99,7 @@ export default function SearchPage() {
                   />
                 )}
               />
-            </StyledView>
+            </View>
           </Animated.View>
         </Animated.View>
       </GestureDetector>

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  TextInput,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import Animated, {
@@ -12,7 +13,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { StyledText, StyledView, StyledInput } from "../../components/styled";
 import useExerciseStore from "../../store/exerciseStore";
 import { generateRandomString, getDateInfo, roundInt } from "../../utils/helpers";
 import { DateInfo, ExerciseStore, InfoRouteData, RouteData } from "../../ts";
@@ -20,12 +20,12 @@ import { ExerciseSchema } from "../../zod";
 
 const Information = ({ name, value }) => (
   <View style={styles.informationContainer}>
-    <StyledText numberOfLines={4} style={styles.informationText}>
+    <Text numberOfLines={4} style={styles.informationText}>
       {name}
-    </StyledText>
-    <StyledText numberOfLines={4} style={styles.informationTextValue}>
+    </Text>
+    <Text numberOfLines={4} style={styles.informationTextValue}>
       {value}
-    </StyledText>
+    </Text>
   </View>
 );
 
@@ -64,7 +64,6 @@ const ExerciseInfo = () => {
       await addExercise(JSON.stringify(validateData));
       alert("Exercise Added");
     } catch (err) {
-      console.log(err);
       alert("Exercise not added");
     } finally {
       setLoading(false);
@@ -73,40 +72,40 @@ const ExerciseInfo = () => {
 
   return (
     <Animated.View style={[styles.container, animStyles]}>
-      <StyledView style={styles.innerContainer}>
-        <StyledText style={styles.title}>{data?.name.toUpperCase()}</StyledText>
-        <StyledText numberOfLines={4} style={styles.guideText}>
+      <View style={styles.innerContainer}>
+        <Text style={styles.title}>{data?.name.toUpperCase()}</Text>
+        <Text numberOfLines={4} style={styles.guideText}>
           Guide
-        </StyledText>
-        <StyledText numberOfLines={4} style={styles.guideText}>
+        </Text>
+        <Text numberOfLines={4} style={styles.guideText}>
           {data.instructions}
-        </StyledText>
+        </Text>
 
-        <StyledText numberOfLines={4} style={styles.infoHeader}>
+        <Text numberOfLines={4} style={styles.infoHeader}>
           Information
-        </StyledText>
+        </Text>
         <Information name={"Type"} value={data.type} />
         <Information name={"Muscle"} value={data.muscle} />
         <Information name={"Difficulty"} value={data.difficulty} />
 
-        <StyledView style={styles.inputContainer}>
-          <StyledView style={styles.inputWrapper}>
-            <StyledText style={styles.label}>Sets</StyledText>
-            <StyledInput
+        <View style={styles.inputContainer}>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Sets</Text>
+            <TextInput
               value={sets}
               onChangeText={(val) => setSets(val)}
               style={styles.input}
             />
-          </StyledView>
-          <StyledView style={styles.inputWrapper}>
-            <StyledText style={styles.label}>Reps</StyledText>
-            <StyledInput
+          </View>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>Reps</Text>
+            <TextInput
               value={reps}
               onChangeText={(val) => setReps(val)}
               style={styles.input}
             />
-          </StyledView>
-        </StyledView>
+          </View>
+        </View>
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.8}
@@ -115,10 +114,10 @@ const ExerciseInfo = () => {
           {loading ? (
             <ActivityIndicator color={"white"} />
           ) : (
-            <StyledText style={styles.buttonText}>Add</StyledText>
+            <Text style={styles.buttonText}>Add</Text>
           )}
         </TouchableOpacity>
-      </StyledView>
+      </View>
     </Animated.View>
   );
 };

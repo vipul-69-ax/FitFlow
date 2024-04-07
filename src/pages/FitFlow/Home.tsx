@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,10 +13,15 @@ import {
   GestureDetector,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import { StyledView } from "../../components/styled";
 import HomeExerciseCard from "../../components/HomeExercise";
 import useExerciseStore from "../../store/exerciseStore";
-import { DateInfo, DaysNavigationProp, Exercise, ExerciseStore, State, User } from "../../ts";
+import {
+  DateInfo,
+  DaysNavigationProp,
+  Exercise,
+  ExerciseStore,
+  State,
+} from "../../ts";
 import FadeLetter from "../../components/FadingTextAnim";
 import { getDateInfo } from "../../utils/helpers";
 import { YStaggerText } from "../../components/YStaggerText";
@@ -25,7 +30,7 @@ import useUserStore from "../../store/userStore";
 export default function Home() {
   const { navigate } = useNavigation<DaysNavigationProp>();
   const [currentExercise, setCurrentExercise] = useState<Exercise | null>(null);
-  const user = useUserStore((state:State)=>state.user);
+  const user = useUserStore((state: State) => state.user);
   const DATE: DateInfo = getDateInfo();
   const { exercises, completeExercise, removeExercise } =
     useExerciseStore() as ExerciseStore;
@@ -83,17 +88,15 @@ export default function Home() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Animated.View exiting={FadeOut} style={{ flex: 1 }}>
-        <StyledView className="px-4" style={{ paddingTop: "15%" }}>
+        <View style={{ paddingTop: "15%", padding:'4%' }}>
           {user.name && (
             <Animated.Text
               style={{ fontSize: 18 }}
-              onPress={() => console.log(exercises.length)}
             >
-              Hello Vipul
+              Hello {user?.name}
             </Animated.Text>
           )}
-
-          <StyledView className="flex-row" style={{ gap: 5 }}>
+          <View style={{ gap: 5, flexDirection: "row" }}>
             {"Let's Workout".split(" ").map((i, index) => (
               <YStaggerText
                 index={index}
@@ -102,14 +105,14 @@ export default function Home() {
                 word={i}
               />
             ))}
-          </StyledView>
+          </View>
 
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => navigate("days")}
             style={[styles.button, styles.scheduleButton]}
           >
-            <StyledView className="flex-row">
+            <View style={{flexDirection:'row'}}>
               {"Schedule Your Workout".split("").map((i, index) => (
                 <FadeLetter
                   letter={i}
@@ -118,7 +121,7 @@ export default function Home() {
                   index={index}
                 />
               ))}
-            </StyledView>
+            </View>
             <Ionicons
               name="search"
               color={"#aaa"}
@@ -150,7 +153,7 @@ export default function Home() {
           ) : (
             <Text style={styles.noWorkoutText}>No workout for today.</Text>
           )}
-        </StyledView>
+        </View>
 
         <GestureDetector gesture={sheetGesture}>
           <Animated.View style={[sheetStyles, styles.sheet]}>

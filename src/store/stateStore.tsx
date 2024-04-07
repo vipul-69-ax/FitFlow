@@ -10,7 +10,6 @@ const useStateStore = create(
         try {
           set(s);
         } catch (err) {
-          console.log(err);
         }
       },
     }),

@@ -17,7 +17,6 @@ const useExerciseStore = create(
       exercises: [],
 
       addExercise: async (exercise) => {
-        console.log("Adding");
         try {
           await addToExercises(exercise, set);
         } catch (error) {

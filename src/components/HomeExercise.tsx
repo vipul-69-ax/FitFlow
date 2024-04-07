@@ -43,7 +43,6 @@ export default function HomeExerciseCard({ data, index, press }) {
   const scaleStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: scaleText.value }],
-      //   position: pos.value,
     };
   });
   const bg = useSharedValue("#FFF");
