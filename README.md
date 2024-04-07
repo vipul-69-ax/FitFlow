@@ -16,6 +16,11 @@ To get started with FitFlow, follow these steps:
 2. Install dependencies using `npm install` or `yarn install`.
 3. Run the app on your preferred platform using `npm start` or `yarn start`.
 
+## Switch to Master Branch
+If you're not already on the master branch, switch to it using the following command:
+```shell
+git checkout master
+```
 ## Contributing
 Contributions are welcome! If you'd like to contribute to FitFlow, feel free to fork the repository and submit a pull request.
 
